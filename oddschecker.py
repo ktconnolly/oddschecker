@@ -10,18 +10,8 @@ class Oddschecker:
         self.url = url
         self._soup = None
 
-    def get_books(self):
-        self._get_soup()
-
-        books = []
-        for row in self._get_table_head():
-            elem = row.find("a")
-            if elem and elem.has_attr("title"):
-                books.append(elem["title"])
-        return books
-
     def get_prices(self, target_books=None):
-        all_books = self.get_books()
+        all_books = self._get_books()
 
         if not target_books:
             target_books = all_books
@@ -45,6 +35,16 @@ class Oddschecker:
                 col += 1
 
         return self._sorted(prices)
+
+    def _get_books(self):
+        self._get_soup()
+
+        books = []
+        for row in self._get_table_head():
+            elem = row.find("a")
+            if elem and elem.has_attr("title"):
+                books.append(elem["title"])
+        return books
 
     def _get_soup(self):
         r = requests.get(
