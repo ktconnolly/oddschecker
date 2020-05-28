@@ -11,6 +11,8 @@ class Oddschecker:
         self._soup = None
 
     def get_prices(self, target_books=None):
+        self._get_soup()
+
         all_books = self._get_books()
 
         if not target_books:
@@ -37,8 +39,6 @@ class Oddschecker:
         return self._sorted(prices)
 
     def _get_books(self):
-        self._get_soup()
-
         books = []
         for row in self._get_table_head():
             elem = row.find("a")
